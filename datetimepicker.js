@@ -30,6 +30,7 @@ angular.module('ui.bootstrap.datetimepicker',
           dayHeaderFormat: "=",
           dayTitleFormat: "=",
           monthTitleFormat: "=",
+          showTimeForEmptyDate: "=?",
           showWeeks: "=",
           startingDay: "=",
           yearRange: "=",
@@ -106,7 +107,11 @@ angular.module('ui.bootstrap.datetimepicker',
             createEvalAttr("placeholder", "placeholder") +
             "/>\n" +
             "</div>\n" +
-            "<div class=\"datetimepicker-wrapper\" ng-model=\"time\" ng-change=\"time_change()\" style=\"display:inline-block\">\n" +
+            "<div class=\"datetimepicker-wrapper\" " +
+              "ng-show=\"showTimeForEmptyDate || ngModel\" " +
+              "ng-model=\"time\" " +
+              "ng-change=\"time_change()\" " +
+              "style=\"display:inline-block\">\n" +
             "<timepicker " + [
               ["hourStep"],
               ["minuteStep"],
@@ -121,6 +126,9 @@ angular.module('ui.bootstrap.datetimepicker',
         },
         controller: ['$scope',
           function($scope) {
+            // Default value is true
+            $scope.showTimeForEmptyDate = $scope.showTimeForEmptyDate == null || $scope.showTimeForEmptyDate ;
+
             $scope.date_change = function() {
               // If we changed the date only, set the time (h,m) on it.
               // This is important in case the previous date was null.
